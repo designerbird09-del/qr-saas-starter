@@ -1,0 +1,31 @@
+# Normalize line endings across OSes so the repo is clean on Windows, macOS and Linux.
+# This keeps diffs sane when pushing to a remote git / VS Code source control.
+* text=auto eol=lf
+
+# Windows-specific scripts should keep CRLF
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Force LF for common source/config files
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.js   text eol=lf
+*.jsx  text eol=lf
+*.json text eol=lf
+*.css  text eol=lf
+*.html text eol=lf
+*.md   text eol=lf
+*.prisma text eol=lf
+
+# Treat these as binary (no line-ending conversion, no diff)
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.zip  binary
+*.pdf  binary

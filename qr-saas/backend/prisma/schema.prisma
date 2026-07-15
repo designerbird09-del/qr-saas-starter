@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PlanTier {
+  FREE
+  PRO
+  BUSINESS
+  ENTERPRISE
+}
+
+enum QRType {
+  URL
+  TEXT
+  EMAIL
+  PHONE
+  SMS
+  WHATSAPP
+  WIFI
+  CONTACT
+  LOCATION
+  GOOGLE_MAPS
+  UPI
+  SOCIAL
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  planTier     PlanTier  @default(FREE)
+  isVerified   Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  qrCodes      QRCode[]
+  folders      Folder[]
+  tags         Tag[]
+}
+
+model Folder {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  qrCodes   QRCode[]
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  qrCodes   QRCode[]
+  createdAt DateTime @default(now())
+}
+
+model QRCode {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name          String
+  type          QRType
+  isDynamic     Boolean   @default(false)
+  targetValue   String
+  shortCode     String?   @unique
+
+  isActive      Boolean   @default(true)
+  expiresAt     DateTime?
+  passwordHash  String?
+  scanLimit     Int?
+  scanCount     Int       @default(0)
+  isFavorite    Boolean   @default(false)
+  isArchived    Boolean   @default(false)
+
+  folderId      String?
+  folder        Folder?   @relation(fields: [folderId], references: [id])
+  tags          Tag[]
+
+  design        QRCodeDesign?
+  scanLogs      ScanLog[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model QRCodeDesign {
+  id              String   @id @default(cuid())
+  qrCodeId        String   @unique
+  qrCode          QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+
+  foregroundColor String   @default("#000000")
+  backgroundColor String   @default("#FFFFFF")
+  gradientStart   String?
+  gradientEnd     String?
+  dotShape        String   @default("square")
+  eyeStyle        String   @default("square")
+  frameStyle      String?
+  logoUrl         String?
+  margin          Int      @default(4)
+  errorCorrection String   @default("M")
+  opacity         Float    @default(1.0)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ScanLog {
+  id         String   @id @default(cuid())
+  qrCodeId   String
+  qrCode     QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+
+  scannedAt  DateTime @default(now())
+  ipHash     String?
+  country    String?
+  city       String?
+  device     String?
+  browser    String?
+  os         String?
+  referrer   String?
+
+  @@index([qrCodeId])
+}
