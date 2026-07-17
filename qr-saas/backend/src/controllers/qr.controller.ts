@@ -48,10 +48,10 @@ export const duplicateQr = catchAsync(async (req: Request, res: Response) => {
 // Renders a QR (PNG data URL) for a given type/value/design without persisting it.
 // Used by the live builder for instant preview and by the "download" action.
 export const renderQr = catchAsync(async (req: Request, res: Response) => {
-  const { type, value, foregroundColor, backgroundColor, margin, errorCorrection } = req.body;
+  const { type, value, foregroundColor, backgroundColor, margin, errorCorrection, payload } = req.body;
   if (!type || !value) throw new AppError("type and value are required", 422);
 
-  const payload = buildPayload(type, value);
-  const dataUrl = await generateQrPngDataUrl(payload, { foregroundColor, backgroundColor, margin, errorCorrection });
+  const finalPayload = payload || buildPayload(type, value);
+  const dataUrl = await generateQrPngDataUrl(finalPayload, { foregroundColor, backgroundColor, margin, errorCorrection });
   sendSuccess(res, { dataUrl });
 });

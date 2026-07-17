@@ -35,28 +35,28 @@ export function RegisterPage() {
         <input
           type="text" placeholder="Name" value={name}
           onChange={(e) => setName(e.target.value)}
-          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 outline-none focus:border-brand-500"
+          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 outline-none focus:border-gray-500"
         />
         <input
           type="email" required placeholder="Email" value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 outline-none focus:border-brand-500"
+          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 outline-none focus:border-gray-500"
         />
         <input
           type="password" required minLength={8} placeholder="Password (min 8 characters)" value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 outline-none focus:border-brand-500"
+          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 outline-none focus:border-gray-500"
         />
         {error && <p className="text-sm text-red-400">{error}</p>}
         <button
           type="submit" disabled={loading}
-          className="rounded-lg bg-brand-600 py-2 font-medium hover:bg-brand-700 disabled:opacity-50"
+           className="rounded-xl bg-gradient-to-br from-[#d4a574] via-[#c68b59] to-[#b87333] py-2 font-medium text-[#1a0f0a] shadow-[0_0_15px_rgba(200,140,100,0.25)] hover:shadow-[0_0_30px_rgba(255,180,140,0.45)] hover:brightness-110 active:scale-95 disabled:opacity-50 transition-all duration-300"
         >
           {loading ? "Creating account…" : "Sign up"}
         </button>
       </form>
       <p className="mt-4 text-sm text-neutral-400">
-        Already have an account? <Link to="/login" className="text-brand-400 hover:underline">Log in</Link>
+         Already have an account? <Link to="/login" className="text-neutral-400 hover:underline">Log in</Link>
       </p>
     </div>
   );

@@ -3,6 +3,9 @@ import { z } from "zod";
 export const qrTypeEnum = z.enum([
   "URL", "TEXT", "EMAIL", "PHONE", "SMS", "WHATSAPP",
   "WIFI", "CONTACT", "LOCATION", "GOOGLE_MAPS", "UPI", "SOCIAL",
+  "EVENT", "CALENDAR", "APP_DOWNLOAD", "INSTAGRAM", "FACEBOOK",
+  "X", "LINKEDIN", "YOUTUBE", "TELEGRAM", "DISCORD", "PAYPAL",
+  "STRIPE", "PDF", "IMAGE", "VIDEO", "MULTI_LINK",
 ]);
 
 export const designSchema = z.object({

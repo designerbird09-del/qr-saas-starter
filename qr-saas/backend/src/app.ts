@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import { env } from "./config/env";
 import routes from "./routes";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
+import { resolveAndLogScan } from "./services/qr.service";
 
 export function createApp() {
   const app = express();
@@ -18,6 +19,18 @@ export function createApp() {
 
   app.get("/health", (_req, res) => res.json({ status: "ok" }));
   app.use("/api", routes);
+
+  app.get("/r/:shortCode", async (req, res, next) => {
+    try {
+      const target = await resolveAndLogScan(req.params.shortCode, {
+        userAgent: req.headers["user-agent"],
+        referrer: req.headers.referer,
+      });
+      res.redirect(target);
+    } catch (err) {
+      next(err);
+    }
+  });
 
   app.use(notFoundHandler);
   app.use(errorHandler);

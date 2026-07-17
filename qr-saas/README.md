@@ -1,4 +1,4 @@
-# QRForge — QR Code Generator SaaS (starter scaffold)
+# QRSO — QR Code Generator SaaS (starter scaffold)
 
 This is a **working, minimal end-to-end slice** of the full product spec: register → log in → open the
 live QR builder → type a value → see a real QR code render → download it. Persisted QR codes show up on

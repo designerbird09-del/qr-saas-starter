@@ -138,7 +138,7 @@ export async function duplicateQrCode(userId: string, id: string) {
 }
 
 // resolves a dynamic QR's short code to its live target, recording a scan
-export async function resolveAndLogScan(shortCode: string, meta: { device?: string; browser?: string; os?: string; referrer?: string; ipHash?: string }) {
+export async function resolveAndLogScan(shortCode: string, meta: { device?: string; browser?: string; os?: string; referrer?: string; ipHash?: string; userAgent?: string }) {
   const qr = await prisma.qRCode.findUnique({ where: { shortCode } });
   if (!qr) throw new AppError("QR code not found", 404);
   if (!qr.isActive) throw new AppError("This QR code has been paused", 410);

@@ -7,10 +7,6 @@ export interface QrDesignOptions {
   errorCorrection?: "L" | "M" | "Q" | "H";
 }
 
-/**
- * Builds the raw string payload to encode, based on QR type.
- * This mirrors the frontend's client-side encoder so previews match final output.
- */
 export function buildPayload(type: string, value: string): string {
   switch (type) {
     case "EMAIL":
@@ -23,9 +19,39 @@ export function buildPayload(type: string, value: string): string {
       return `https://wa.me/${value.replace(/[^\d]/g, "")}`;
     case "GOOGLE_MAPS":
       return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(value)}`;
+    case "EVENT":
+      return value;
+    case "CALENDAR":
+      return value;
+    case "APP_DOWNLOAD":
+      return value;
+    case "INSTAGRAM":
+      return `https://instagram.com/${value.replace(/^@/, "")}`;
+    case "FACEBOOK":
+      return `https://facebook.com/${value.replace(/^@/, "")}`;
+    case "X":
+      return `https://x.com/${value.replace(/^@/, "")}`;
+    case "LINKEDIN":
+      return `https://linkedin.com/in/${value}`;
+    case "YOUTUBE":
+      return `https://youtube.com/@${value.replace(/^@/, "")}`;
+    case "TELEGRAM":
+      return `https://t.me/${value.replace(/^@/, "")}`;
+    case "DISCORD":
+      return `https://discord.gg/${value}`;
+    case "PAYPAL":
+      return `https://paypal.me/${value}`;
+    case "STRIPE":
+      return value;
+    case "PDF":
+      return value;
+    case "IMAGE":
+      return value;
+    case "VIDEO":
+      return value;
+    case "MULTI_LINK":
+      return value;
     default:
-      // URL, TEXT, WIFI, CONTACT, LOCATION, UPI, SOCIAL: value is passed through
-      // (WIFI/CONTACT/UPI payloads are pre-formatted by the frontend form before reaching here)
       return value;
   }
 }

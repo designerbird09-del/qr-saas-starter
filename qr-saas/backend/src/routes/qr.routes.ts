@@ -6,9 +6,10 @@ import {
 
 const router = Router();
 
+router.post("/render", renderQr);
+
 router.use(requireAuth);
 
-router.post("/render", renderQr);
 router.post("/", createQr);
 router.get("/", listQr);
 router.get("/:id", getQr);
